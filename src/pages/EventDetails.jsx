@@ -40,7 +40,7 @@ export default function EventDetails() {
     return error ? <Alert>{error}</Alert> : <p className="muted">Loading...</p>;
   }
 
-  const canBook = event.status === "approved" && (!user || user.role === "user");
+  const canBook = event.status === "approved" && (!user || user.role === "user"|| user.role === "admin");
 
   return (
     <div className="card details">
@@ -64,7 +64,7 @@ export default function EventDetails() {
           {booking ? "Booking..." : user ? "Book Now" : "Login to Book"}
         </button>
       )}
-      {user && user.role !== "user" && (
+      {user && user.role !== "moderator" && (
         <p className="muted">Only regular users can book events.</p>
       )}
       {event.status !== "approved" && (

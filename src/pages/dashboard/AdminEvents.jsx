@@ -14,7 +14,7 @@ export default function AdminEvents() {
   const [message, setMessage] = useState("");
 
   const load = () => {
-    api("/events/manage/all").then(setEvents).catch((err) => setError(err.message));
+    api("/events/management").then(setEvents).catch((err) => setError(err.message));
   };
 
   useEffect(load, []);
@@ -67,6 +67,23 @@ export default function AdminEvents() {
       setError(err.message);
     }
   };
+
+
+const approve = async (id) => {
+  setError("");
+  try {
+    await api(`/events/${id}/review`, { 
+      method: "PUT", 
+      body: { status: "approved" } 
+    });
+    load(); 
+  } catch (err) {
+    setError(err.message);
+  }
+};
+
+  
+  
 
   return (
     <>
@@ -124,9 +141,12 @@ export default function AdminEvents() {
               <td>{formatPrice(ev.price)}</td>
               <td><StatusBadge status={ev.status} /></td>
               <td>
+                <button className="btn btn-sm btn-primary" onClick={() => approve(ev._id)}>Approve</button>{" "}
                 <button className="btn btn-sm btn-outline" onClick={() => edit(ev)}>Edit</button>{" "}
                 <button className="btn btn-sm btn-outline" onClick={() => remove(ev._id)}>Delete</button>
+             
               </td>
+
             </tr>
           ))}
         </tbody>
