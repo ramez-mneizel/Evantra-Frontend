@@ -95,7 +95,7 @@ function ModeratorHome() {
   const [message, setMessage] = useState("");
 
   const load = () => {
-    api("/events/manage/all")
+    api("/events/management")
       .then(setEvents)
       .catch((err) => setError(err.message));
   };
